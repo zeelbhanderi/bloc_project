@@ -1,8 +1,9 @@
+import 'package:bloc_project/project/counter_app_cubit/bloc/counter_bloc.dart';
 import 'package:bloc_project/project/counter_app_cubit/inc_dec_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../counter_cubit.dart';
+import 'cubit/counter_cubit.dart';
 
 class CounterAppCubit extends StatelessWidget {
   const CounterAppCubit({super.key});
@@ -16,11 +17,19 @@ class CounterAppCubit extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
-        child: BlocBuilder<CounterCubit, int>(
-          bloc: counterCube,
-          builder: (context, state) {
-            return Text('Number $state');
-          },
+        child: Column(
+          children: [
+            BlocBuilder<CounterBloc, int>(
+              builder: (context, state) {
+                return Text('Bloc Number $state');
+              },
+            ),
+            BlocBuilder<CounterCubit, int>(
+              builder: (context, state) {
+                return Text('Cubit Number $state');
+              },
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -28,7 +37,7 @@ class CounterAppCubit extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const IncrementDecmentPage(),
+                builder: (context) => const IncrementDecrementPage(),
               ));
         },
         child: const Icon(Icons.navigate_next),
