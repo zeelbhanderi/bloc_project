@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'project/counter_app_cubit/cubit/counter_app_cubit.dart';
+import 'project/counter_app_cubit/counter_app_cubit.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
