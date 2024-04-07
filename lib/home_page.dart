@@ -2,6 +2,7 @@ import 'package:bloc_project/project/todo_app_bloc/todo_bloc_list.dart';
 import 'package:flutter/material.dart';
 
 import 'project/counter_app_cubit/counter_app_cubit.dart';
+import 'project/login-ui/login_screen.dart';
 import 'project/todo_app/todo_cubit_list.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -46,6 +47,7 @@ final List<Project> projectList = [
   Project('Counter App', 'A simple counter app.', const CounterApp()),
   Project('TODO App Cubit', 'A simple todo app using cubit',  TodoCubitList()),
   Project('TODO App Bloc', 'A simple todo app using cubit',  TodoLisBloc()),
+  Project('Login Bloc', 'A simple login app using bloc',  LoginScreen()),
 ];
 
 class Project {

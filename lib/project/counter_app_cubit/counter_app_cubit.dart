@@ -10,7 +10,6 @@ class CounterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final counterCube = BlocProvider.of<CounterCubit>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Counter App Using Cubit'),

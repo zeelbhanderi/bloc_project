@@ -63,7 +63,7 @@ class TodoLisBloc extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => AddTodoScreen(),
+                builder: (context) => const AddTodoScreen(),
               ));
         },
         child: const Icon(Icons.add),

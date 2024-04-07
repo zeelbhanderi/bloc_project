@@ -19,11 +19,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     });
     on<EditTodo>((event, emit) {
       final index = todos.indexWhere((todo) => todo.id == event.todo.id);
-
-      // print(event.todo.toJson());
-      // TodoModel todo = todos.firstWhere((element) => element.id == event.todo.id);
-      // print(todo..toJson());
-      // print(todos);
+      if (index != -1) {
+        todos[index] = event.todo;
+        emit(TodoLoaded(List.from(todos)));
+      }
       emit(TodoLoaded(todos));
     });
   }

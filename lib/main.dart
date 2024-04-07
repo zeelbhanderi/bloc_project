@@ -1,7 +1,6 @@
 import 'package:bloc_project/home_page.dart';
 import 'package:bloc_project/project/counter_app_cubit/bloc/counter_bloc.dart';
 import 'package:bloc_project/project/todo_app/cubit/todo_cubit.dart';
-import 'package:bloc_project/project/todo_app/todo_cubit_list.dart';
 import 'package:bloc_project/project/todo_app_bloc/bloc/todo_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
