@@ -1,6 +1,8 @@
+import 'package:bloc_project/project/todo_app_bloc/todo_bloc_list.dart';
 import 'package:flutter/material.dart';
 
 import 'project/counter_app_cubit/counter_app_cubit.dart';
+import 'project/todo_app/todo_cubit_list.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,8 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-List<Project> projectList = [
-  Project('Counter App', 'A simple counter app using cubit', CounterAppCubit()),
+final List<Project> projectList = [
+  Project('Counter App', 'A simple counter app.', const CounterApp()),
+  Project('TODO App Cubit', 'A simple todo app using cubit',  TodoCubitList()),
+  Project('TODO App Bloc', 'A simple todo app using cubit',  TodoLisBloc()),
 ];
 
 class Project {
