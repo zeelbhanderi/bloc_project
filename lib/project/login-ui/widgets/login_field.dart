@@ -4,9 +4,12 @@ import '../pallete.dart';
 
 class LoginField extends StatelessWidget {
   final String hintText;
+  final TextEditingController controller;
+
   const LoginField({
     Key? key,
     required this.hintText,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -16,24 +19,26 @@ class LoginField extends StatelessWidget {
         maxWidth: 400,
       ),
       child: TextFormField(
+        controller: controller,
+        style: TextStyle(color: Pallete.whiteColor),
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(27),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Pallete.borderColor,
-              width: 3,
+            contentPadding: const EdgeInsets.all(27),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Pallete.borderColor,
+                width: 3,
+              ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Pallete.gradient2,
-              width: 3,
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Pallete.gradient2,
+                width: 3,
+              ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          hintText: hintText,
-        ),
+            hintText: hintText,
+            hintStyle: const TextStyle(color: Pallete.whiteColor)),
       ),
     );
   }
