@@ -39,8 +39,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'BLOC Project',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        theme: ThemeData.dark(
           useMaterial3: true,
         ),
         home: const MyHomePage(title: 'BLOC Project'),
