@@ -3,6 +3,7 @@ import 'package:bloc_project/project/counter_app_cubit/bloc/counter_bloc.dart';
 import 'package:bloc_project/project/login-ui/bloc/auth_bloc.dart';
 import 'package:bloc_project/project/todo_app/cubit/todo_cubit.dart';
 import 'package:bloc_project/project/todo_app_bloc/bloc/todo_bloc.dart';
+import 'package:bloc_project/project/weather_app/bloc/weather_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AuthBloc(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'BLOC Project',

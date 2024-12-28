@@ -1,49 +1,37 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'additional_info_item.dart';
-import 'hourly_forecast_item.dart';
+import '../../bloc/weather_bloc.dart';
+import '../../data/data_provider/weather_data_provider.dart';
+import '../../data/repository/weather_repository.dart';
+import '../widgets/additional_info_item.dart';
+import '../widgets/hourly_forecast_item.dart';
 import 'package:http/http.dart' as http;
 
-import 'secrets.dart';
-
+import '../../secrets.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
   @override
   State<WeatherScreen> createState() => _WeatherScreenState();
+
+  Widget builder() {
+    return RepositoryProvider(
+        create: (context) => WeatherRepository(WeatherDataProvider()),
+        child: BlocProvider(
+            create: (context) => WeatherBloc(context.read<WeatherRepository>()),
+            child: const WeatherScreen()));
+  }
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  late Future<Map<String, dynamic>> weather;
-
-  Future<Map<String, dynamic>> getCurrentWeather() async {
-    try {
-      String cityName = 'Surat';
-      final res = await http.get(
-        Uri.parse(
-          'https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey',
-        ),
-      );
-
-      final data = jsonDecode(res.body);
-
-      if (data['cod'] != '200') {
-        throw 'An unexpected error occurred';
-      }
-
-      return data;
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    weather = getCurrentWeather();
+    context.read<WeatherBloc>().add(GetWeather('New Delhi'));
   }
 
   @override
@@ -60,38 +48,38 @@ class _WeatherScreenState extends State<WeatherScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              setState(() {
-                weather = getCurrentWeather();
-              });
+              context.read<WeatherBloc>().add(GetWeather('New Delhi'));
             },
             icon: const Icon(Icons.refresh),
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: weather,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: BlocBuilder<WeatherBloc, WeatherState>(
+        builder: (context, state) {
+          if (state is WeatherInitial) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+          if (state is WeatherError) {
+            return Center(
+              child: Text(state.message),
+            );
+          }
+          if (state is! WeatherLoaded) {
             return const Center(
               child: CircularProgressIndicator.adaptive(),
             );
           }
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
-          }
 
-          final data = snapshot.data!;
+          final data = state.weatherModel;
 
-          final currentWeatherData = data['list'][0];
-
-          final currentTemp = currentWeatherData['main']['temp'];
-          final currentSky = currentWeatherData['weather'][0]['main'];
-          final currentPressure = currentWeatherData['main']['pressure'];
-          final currentWindSpeed = currentWeatherData['wind']['speed'];
-          final currentHumidity = currentWeatherData['main']['humidity'];
+          final currentTemp = data.currentTemp;
+          final currentSky = data.currentSky;
+          final currentPressure = data.currentPressure;
+          final currentWindSpeed = data.currentWindSpeed;
+          final currentHumidity = data.currentHumidity;
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -154,28 +142,28 @@ class _WeatherScreenState extends State<WeatherScreen> {
                   ),
                 ),
                 const SizedBox(height: 8),
-                SizedBox(
-                  height: 120,
-                  child: ListView.builder(
-                    itemCount: 5,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final hourlyForecast = data['list'][index + 1];
-                      final hourlySky =
-                      data['list'][index + 1]['weather'][0]['main'];
-                      final hourlyTemp =
-                      hourlyForecast['main']['temp'].toString();
-                      final time = DateTime.parse(hourlyForecast['dt_txt']);
-                      return HourlyForecastItem(
-                        time: DateFormat.j().format(time),
-                        temperature: hourlyTemp,
-                        icon: hourlySky == 'Clouds' || hourlySky == 'Rain'
-                            ? Icons.cloud
-                            : Icons.sunny,
-                      );
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: 120,
+                //   child: ListView.builder(
+                //     itemCount: 5,
+                //     scrollDirection: Axis.horizontal,
+                //     itemBuilder: (context, index) {
+                //       final hourlyForecast = data['list'][index + 1];
+                //       final hourlySky =
+                //           data['list'][index + 1]['weather'][0]['main'];
+                //       final hourlyTemp =
+                //           hourlyForecast['main']['temp'].toString();
+                //       final time = DateTime.parse(hourlyForecast['dt_txt']);
+                //       return HourlyForecastItem(
+                //         time: DateFormat.j().format(time),
+                //         temperature: hourlyTemp,
+                //         icon: hourlySky == 'Clouds' || hourlySky == 'Rain'
+                //             ? Icons.cloud
+                //             : Icons.sunny,
+                //       );
+                //     },
+                //   ),
+                // ),
 
                 const SizedBox(height: 20),
                 const Text(
