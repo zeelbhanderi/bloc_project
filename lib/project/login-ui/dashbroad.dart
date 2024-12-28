@@ -24,11 +24,13 @@ class Dashboard extends StatelessWidget {
                 ),
               );
             } else if (state is AuthInitial) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+                (route) => false,
+              );
             }
           },
           builder: (context, state) {

@@ -12,11 +12,13 @@ class AppBlocObserver extends BlocObserver {
     super.onChange(bloc, change);
     print('$bloc Changed - $change');
   }
+
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
     super.onError(bloc, error, stackTrace);
     print('$bloc Error - $error');
   }
+
   @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
@@ -28,6 +30,7 @@ class AppBlocObserver extends BlocObserver {
     super.onTransition(bloc, transition);
     print('$bloc Transition - $transition');
   }
+
   @override
   void onClose(BlocBase bloc) {
     super.onClose(bloc);

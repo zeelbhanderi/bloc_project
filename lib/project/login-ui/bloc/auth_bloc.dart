@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_event.dart';
 
@@ -10,11 +11,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthLoginRequested>(_onAuthLoginRequest);
     on<AuthLogoutRequested>(_onAuthLogoutRequest);
-
   }
 
-
-  void _onAuthLoginRequest(AuthLoginRequested event,Emitter<AuthState> emit) async {
+  void _onAuthLoginRequest(
+      AuthLoginRequested event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final email = event.email;
